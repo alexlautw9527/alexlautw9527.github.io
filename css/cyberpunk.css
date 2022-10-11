@@ -10282,6 +10282,11 @@ body > .section {
     background: rgba(0,0,0,0.24);
   }
 }
+@font-face {
+  font-family: 'gamestart';
+  font-style: normal;
+  src: url("../fonts/prstartk.ttf");
+}
 .ml-0,
 .mx-0 {
   margin-left: 0 !important;
@@ -10936,6 +10941,8 @@ a.article-nav-next span {
   white-space: normal;
 }
 .navbar-main {
+  font-family: gamestart, sans-serif;
+  font-size: 0.8rem;
   box-shadow: none;
 }
 .navbar-main .navbar-container {

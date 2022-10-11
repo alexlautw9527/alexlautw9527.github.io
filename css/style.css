@@ -388,7 +388,7 @@ th:not([align]) {
   text-align: left;
 }
 html {
-  background-color: #f7f7f7;
+  background-color: #f2f2f2;
   font-size: 14px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -10281,6 +10281,11 @@ body > .section {
     background: rgba(0,0,0,0.24);
   }
 }
+@font-face {
+  font-family: 'gamestart';
+  font-style: normal;
+  src: url("../fonts/prstartk.ttf");
+}
 .ml-0,
 .mx-0 {
   margin-left: 0 !important;
@@ -10935,6 +10940,8 @@ a.article-nav-next span {
   white-space: normal;
 }
 .navbar-main {
+  font-family: gamestart, sans-serif;
+  font-size: 0.8rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 .navbar-main .navbar-container {
