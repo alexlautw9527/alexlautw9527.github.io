@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Flow state</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Flow state"><meta name="msapplication-TileImage" content="/img/favicon.ico"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Flow state"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="理性思考、感性生活; 拼湊工程師之路的記憶碎片"><meta property="og:type" content="blog"><meta property="og:title" content="Flow State"><meta property="og:url" content="http://example.com/"><meta property="og:site_name" content="Flow state"><meta property="og:description" content="理性思考、感性生活; 拼湊工程師之路的記憶碎片"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:author" content="Alex Lau"><meta property="article:tag" content="frontend, web, software, data science"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com"},"headline":"Flow state","image":["http://example.com/img/og_image.png"],"author":{"@type":"Person","name":"Alex Lau"},"publisher":{"@type":"Organization","name":"Flow state","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":""}</script><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Flow state" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item is-active" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a></div><div class="navbar-end"><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2022-10-07T02:23:58.000Z" title="10/7/2022, 10:23:58 AM">2022-10-07</time></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2022/10/07/React-beautiful-dnd/">從理解到實作 React-beautiful-dnd</a></h1><div class="content"><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>React 生態圈之中有名的 DnD( Drop and Drag)套件有:</p>
+<ul>
+<li>react-beautiful-dnd</li>
+<li>react-dnd</li>
+<li>react-draggable</li>
+</ul>
+<p>這三者的 star 數和 npm 下載數都很高，但ㄌ適用場景略有不同</p>
+<p>react-draggable 比較像是可以隨意拖曳的「便利貼」，react-dnd 操作上更為底層、自定義成分也更高，意味著需要更多開發時間</p>
+<p>而 react-beautiful-dnd 背後大哥是 Atlassian，旗下的明星產品是 Trello 以及 Jira，此套件的應用場景也是為了卡片拖曳清單應用而生，與這次主題十分契合，故本次選用 react-beautiful-dnd 進行實作教學</p>
+<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h2><p>使用 npm 安裝， <code>nanoid</code> 是為了產生 unique id 以利套件使用， <code>styled-components</code> 則是用來進行 css 樣式設定</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install react-beautiful-dnd --save</span><br><span class="line">npm install nanoid --save</span><br><span class="line">npm install styled-components --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="元件基本架構"><a href="#元件基本架構" class="headerlink" title="元件基本架構"></a>元件基本架構</h2><p><img src="https://blog.laiweb.org/src/images/drag-example.gif" alt="https://blog.laiweb.org/src/images/drag-example.gif"></p>
+<p><code>&lt;Draggable&gt;</code>: 可以類比為<strong>拖曳的卡片</strong></p>
+<p><code>&lt;Droppable&gt;</code>: 容納許多個<code>&lt;Draggable&gt;</code> (拖曳卡片)的清單容器</p>
+<p><code>&lt;DragDropContext&gt;</code>: Drag n Drop 的 context 容器，<strong>可以允許有多個<code>&lt;Droppable&gt;</code> ，</strong>藉此做到卡片在多個清單之間互相拖曳</p>
+<h2 id="套件使用的基本知識"><a href="#套件使用的基本知識" class="headerlink" title="套件使用的基本知識"></a>套件使用的基本知識</h2><ul>
+<li><code>&lt;Droppable&gt;</code>(容納許多張卡片的容器):<ul>
+<li><code>children</code> prop 規定是一個<strong>返回 react element 的函數</strong>，以<code>provided</code>, <code>snapshot</code> 這兩個 object 為參數 (有點奇葩，但是設計就是如此，先接受他 XD)</li>
+<li><code>droppableId</code> prop，該<code>&lt;Droppable&gt;</code>的唯一識別 ID，<strong>如果有多個<code>&lt;Droppable&gt;</code> 時進行判別特別有用</strong></li>
+</ul>
+</li>
+<li><code>&lt;Draggable&gt;</code>(可拖曳的卡片):<ul>
+<li>通常以 array.map 的方式來 render</li>
+<li><code>&lt;Draggable&gt;</code>內部<code>children</code>則和<code>&lt;Droppable&gt;</code> 相同，是一個返回 react element 的函數，也是以<code>provided</code>, <code>snapshot</code>為參數</li>
+<li><code>draggableId</code> : 該<code>&lt;Draggable&gt;</code>的唯一識別 ID</li>
+<li><code>index</code> : 卡片的順序</li>
+</ul>
+</li>
+<li><code>provided</code>, <code>snapshot</code> 的大致內容: 稍後講解，<code>&lt;Droppable&gt;</code> 和<code>&lt;Draggable&gt;</code> 的 property 略有不同</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先宣告簡單的[&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]作為state，作為Draggable內容</span></span><br><span class="line"><span class="keyword">const</span> [items, setItems] = <span class="title function_">useState</span>([<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">DragDropContext</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Droppable</span> <span class="attr">droppableId</span>=<span class="string">&quot;drop-id&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    &#123;/* // droppableId: 該Droppable的唯一識別ID */&#125;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    &#123;(provided, snapshot) =&gt; (</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span> &#123;<span class="attr">...provided.droppableProps</span>&#125; <span class="attr">ref</span>=<span class="string">&#123;provided.innerRef&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#123;/*</span></span><br><span class="line"><span class="language-xml">          provided.innerRef</span></span><br><span class="line"><span class="language-xml">          套件的機制所需, 直接去取用dom的ref, 就是套用的例行公事</span></span><br><span class="line"><span class="language-xml">        */&#125;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">        &#123;items.map((item, index) =&gt; (</span></span><br><span class="line"><span class="language-xml">          // 以map方式渲染每個拖曳卡片(Draggable)</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">					&#123;/* // draggableId: 該卡片的唯一識別ID */&#125;</span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Draggable</span> <span class="attr">draggableId</span>=<span class="string">&#123;item.id&#125;</span> <span class="attr">index</span>=<span class="string">&#123;index&#125;</span> &gt;</span></span></span><br><span class="line"><span class="language-xml">            &#123;(provided, snapshot) =&gt; (</span></span><br><span class="line"><span class="language-xml">              /*</span></span><br><span class="line"><span class="language-xml">                ...provided.droppableProps</span></span><br><span class="line"><span class="language-xml">                ...provided.draggableProps</span></span><br><span class="line"><span class="language-xml">                ...provided.dragHandleProps</span></span><br><span class="line"><span class="language-xml">                單純展開其他必要的props</span></span><br><span class="line"><span class="language-xml">              */</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">div</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">ref</span>=<span class="string">&#123;provided.innerRef&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &#123;<span class="attr">...provided.draggableProps</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &#123;<span class="attr">...provided.dragHandleProps</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              &gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">                &#123;/* 實際上的卡片內容 */&#125;</span></span><br><span class="line"><span class="language-xml">                &#123;item&#125;</span></span><br><span class="line"><span class="language-xml">                &#123;/* 實際上的卡片內容 */&#125;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            )&#125;</span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;/<span class="name">Draggable</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        ))&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    )&#125;</span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">Droppable</span>&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">DragDropContext</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>第一時間看到這個架構可能較難立刻理解，在此以筆者目前理解來逐步詳細解析：</p>
+<ol>
+<li><code>&lt;Droppable&gt; &lt;/Droppable&gt;</code> 之間(children)要包一個函數，並且以<code>provided</code>, <code>snapshot</code> 作為參數</li>
+<li>這個函數要 returnt 出 react element，通常自行給定 <code>div</code> 作為容器，這個 <code>div</code> 就是實際上要作為<code>&lt;Droppable&gt;</code> 的元件，若有需要可用 css 自定樣式</li>
+<li>這個容器 <code>div</code> 需要掛上 <code>&#123;...provided.droppableProps&#125; ref=&#123;provided.innerRef&#125;</code> 這些 props，藉此讓自行給定的<code>div</code>可以運作套件功能</li>
+</ol>
+<p>在上述提及的<code>&lt;Droppable&gt;</code>底下的<code>div</code> 之間，塞入 <code>&lt;Draggable&gt;</code> 作為卡片，<code>&lt;Draggable&gt;</code> 的概念也如出一轍</p>
+<ol>
+<li><code>&lt;Draggable&gt; &lt;/Draggable&gt;</code> 之間要包一個函數，並且以<code>provided</code>, <code>snapshot</code> 作為參數</li>
+<li>這個函數要 returnt 出一個 react element，自行給定 <code>div</code> 作為卡片的容器，裡面塞入實際卡片內容，且可自定樣式</li>
+<li>這個容器 <code>div</code> 需要給定 <code>ref=&#123;provided.innerRef&#125; &#123;...provided.draggableProps &#123;...provided.dragHandleProps&#125;</code> 這些 props，藉此讓自行給定的<code>div</code>可以運作套件功能</li>
+</ol>
+<iframe src="https://codesandbox.io/embed/very-basic-react-dnd-05hdgd?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="very-basic-react-dnd"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+<p>一開始先不加任何樣式，專注在最簡單的範例實現，如此一來 A、B、C 可以拖曳了，但是拖曳完並不會確實更新，還是會回到原來順序</p>
+<p>因為後續需要給定 <code>onDragStart</code>, <code>onDragUpdate</code>, <code>onDragEnd</code> (必填)來決定拖曳生命週期的事件函數(*<strong>*Responders**</strong>)</p>
+<h2 id="Responders-Life-cycle"><a href="#Responders-Life-cycle" class="headerlink" title="Responders Life cycle"></a>Responders Life cycle</h2><p>首先，這些事件函數要放在 <code>&lt;DragDropContext&gt;</code> 的 props，可先 console.log 一覽傳入的參數內容有什麼</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">DragDropContext</span></span><br><span class="line">  onBeforeCapture=&#123;<span class="function">(<span class="params">e</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;onBeforeCapture: &quot;</span>, e)&#125;</span><br><span class="line">  onBeforeDragStart=&#123;<span class="function">(<span class="params">e</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;onBeforeDragStart: &quot;</span>, e)&#125;</span><br><span class="line">  onDragStart=&#123;<span class="function">(<span class="params">e</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;onDragStart: &quot;</span>, e)&#125;</span><br><span class="line">  onDragUpdate=&#123;<span class="function">(<span class="params">e</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;onDragUpdate: &quot;</span>, e)&#125;</span><br><span class="line">  onDragEnd=&#123;<span class="function">(<span class="params">e</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;onDragEnd: &quot;</span>, e)&#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>onBeforeCapture</code>、<code>onBeforeDragStart</code> 較進階先不談，先介紹最重要的三個</p>
+<ul>
+<li><code>onDragStart</code>: 拖曳行為開始時觸發</li>
+<li><code>onDragUpdate</code>: 拖曳行為讓順序產生變動時觸發</li>
+<li><code>onDragEnd</code> : 最重要且必填，當拖曳行為結束時，決定怎麼更新 <code>&lt;Draggable</code> 順序的函數</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/responders.md">套件 github 詳細文件說明</a></p>
+</blockquote>
+<p>若將 C 拖曳到排序第 1 個，再觀察 <code>onDragEnd=&#123;(e) =&gt; console.log(&quot;onDragEnd: &quot;, e)&#125;</code> 可以得到兩個最重要的 property:</p>
+<ul>
+<li><code>source</code><ul>
+<li>被拖曳的卡片<strong>原先的</strong>DroppableId 與順序</li>
+<li>C 原本在第 3 個(index&#x3D;2)</li>
+</ul>
+</li>
+<li><code>destination</code><ul>
+<li>被拖曳的卡片<strong>最終的</strong>DroppableId 與順序</li>
+<li>C 被拖曳到第 1 個(index&#x3D;0)</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2022/10/07/React-beautiful-dnd/onDragEnd.png" alt="onDragEnd"></p>
+<p>接著用<code>onDragEnd</code> 傳入的 event 物件，根據 source 跟 destination 來組出新的 state，並進行更新，再觸發 re-render <code>&lt;Draggable&gt;</code></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onDragEnd</span> = (<span class="params">event</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; source, destination &#125; = event;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!destination) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 拷貝新的items (來自state)</span></span><br><span class="line">  <span class="keyword">let</span> newItems = [...items];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 用splice處理拖曳後資料, 組合出新的items</span></span><br><span class="line">  <span class="comment">// splice(start, deleteCount, item )</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 從source.index剪下被拖曳的元素</span></span><br><span class="line">  <span class="keyword">const</span> [remove] = newItems.<span class="title function_">splice</span>(source.<span class="property">index</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//在destination.index位置貼上被拖曳的元素</span></span><br><span class="line">  newItems.<span class="title function_">splice</span>(destination.<span class="property">index</span>, <span class="number">0</span>, remove);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 設定新的 items</span></span><br><span class="line">  <span class="title function_">setItems</span>(newItems);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<iframe src="https://codesandbox.io/embed/very-basic-react-dnd-add-ondragend-12g8cw?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="very-basic-react-dnd (add onDragEnd)"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+<p>如此一來 ABC 的順序在拖曳後可以成功更新了</p>
+<h2 id="lt-Droppable-gt-providedandsnapshot"><a href="#lt-Droppable-gt-providedandsnapshot" class="headerlink" title="&lt;Droppable&gt; : providedandsnapshot"></a><code>&lt;Droppable&gt;</code> : <code>provided</code>and<code>snapshot</code></h2><p>這個章節簡介<code>&lt;Droppable&gt;</code> 的 <code>provided</code>的<code>snapshot</code> 大致上會有什麼 property</p>
+<h3 id="provided"><a href="#provided" class="headerlink" title="provided"></a><code>provided</code></h3><ul>
+<li><code>provided.innerRef</code><ul>
+<li>將做為 <code>&lt;Droppable&gt;</code> 的 <code>div</code> 容器 ref 綁上 <code>provided.innerRef</code> 才能使套件運作正常</li>
+</ul>
+</li>
+<li><code>provided.placeholder</code><ul>
+<li>讓卡片拖曳時有空間 (UX 層面)</li>
+</ul>
+</li>
+</ul>
+<h3 id="snapshot"><a href="#snapshot" class="headerlink" title="snapshot"></a><code>snapshot</code></h3><ul>
+<li><code>isDraggingOver</code><ul>
+<li>此<code>Droppable</code>是否開始被拖曳</li>
+</ul>
+</li>
+<li><code>draggingOverWith</code><ul>
+<li><code>Droppable</code> 的哪個卡片 id 正在被拖曳</li>
+</ul>
+</li>
+</ul>
+<p><code>&lt;Droppable&gt;</code> 和 <code>&lt;Draggable&gt;</code> 各自的詳細資訊可參閱文件，可進行更細緻的自定義</p>
+<blockquote>
+<p><code>&lt;Droppable&gt;</code> <a target="_blank" rel="noopener" href="https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/droppable.md#children-function">詳細文件</a></p>
+<p><code>&lt;Draggable&gt;</code> <a target="_blank" rel="noopener" href="https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/draggable.md#children-function-render-props--function-as-child">詳細文件</a></p>
+</blockquote>
+<h2 id="實作-Backlog-與-Spring-拖曳清單"><a href="#實作-Backlog-與-Spring-拖曳清單" class="headerlink" title="實作 - Backlog 與 Spring 拖曳清單"></a>實作 - Backlog 與 Spring 拖曳清單</h2><iframe src="https://codesandbox.io/embed/very-basic-react-dnd-multiple-droppable-62vsgd?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="very-basic-react-dnd (multiple droppable)"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+   
+<p>前些章節完成了 react-beautiful-dnd 的基本操作，在這個章節中將會進一步介紹如何實現兩個<code>&lt;Droppable&gt;</code> 之間的拖曳，並偵測 Sprint 清單的點數是否已達到上限，這次使用 style-component 來設定 css 樣式</p>
+<p>本次實作有兩個<code>&lt;Droppable&gt;</code>清單，需將 state 設為比較複雜的物件格式，用以分開 backlog 和 sprint 的卡片內容，並建立 <code>totalScoreSum</code> state 記錄目前使用的點數狀況</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [itemObj, setItemObj] = <span class="title function_">useState</span>(&#123;</span><br><span class="line">  <span class="attr">productBacklog</span>: &#123;</span><br><span class="line">    <span class="attr">items</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">content</span>: <span class="string">&#x27;前台職缺列表（職缺詳細內容、點選可發送應徵意願）&#x27;</span>,</span><br><span class="line">        <span class="attr">id</span>: <span class="title function_">nanoid</span>(),</span><br><span class="line">        <span class="attr">score</span>: <span class="number">5</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123; <span class="attr">content</span>: <span class="string">&#x27;應徵者的線上履歷編輯器&#x27;</span>, <span class="attr">id</span>: <span class="title function_">nanoid</span>(), <span class="attr">score</span>: <span class="number">13</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">content</span>: <span class="string">&#x27;會員系統（登入、註冊、權限管理）&#x27;</span>, <span class="attr">id</span>: <span class="title function_">nanoid</span>(), <span class="attr">score</span>: <span class="number">8</span> &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">content</span>: <span class="string">&#x27;後台職缺管理功能（資訊上架、下架、顯示應徵者資料）&#x27;</span>,</span><br><span class="line">        <span class="attr">id</span>: <span class="title function_">nanoid</span>(),</span><br><span class="line">        <span class="attr">score</span>: <span class="number">8</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">sprintList</span>: &#123;</span><br><span class="line">    <span class="attr">items</span>: [],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [totalScoreSum, setTotalScoreSum] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>這次實作了兩個 <code>&lt;Droppable&gt;</code> 之間互相拖曳， <code>onDragEnd</code> 之中 <code>splice</code> 要使用 <code>source.droppableId</code> 來辨別是從哪個<code>&lt;Droppable&gt;</code> ，再組合出 <code>newitemObj</code>，並進行 set state，並存取<code>newitemObj</code> 之中<code>sprintList</code> item 計算分數總和</p>
+<p>ps: <code>droppableId</code> 也要和 <code>itemObj</code>的 key name 一致才能正確存取（ex: <code>droppableId</code> 跟 <code>itemObj</code>都要是 productBacklog 和 sprintList）</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onDragEnd</span> = (<span class="params">event</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; source, destination &#125; = event;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!destination) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 拷貝新的items (來自state)</span></span><br><span class="line">  <span class="keyword">let</span> newItemObj = &#123; ...itemObj &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// splice(start, deleteCount, item )</span></span><br><span class="line">  <span class="comment">// 從source剪下被拖曳的元素</span></span><br><span class="line">  <span class="keyword">const</span> [remove] = newItemObj[source.<span class="property">droppableId</span>].<span class="property">items</span>.<span class="title function_">splice</span>(source.<span class="property">index</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在destination位置貼上被拖曳的元素</span></span><br><span class="line">  newItemObj[destination.<span class="property">droppableId</span>].<span class="property">items</span>.<span class="title function_">splice</span>(</span><br><span class="line">    destination.<span class="property">index</span>,</span><br><span class="line">    <span class="number">0</span>,</span><br><span class="line">    remove</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set state新的 itemObj</span></span><br><span class="line">  <span class="title function_">setItemObj</span>(newItemObj);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 計算sprint內的分數總和</span></span><br><span class="line">  <span class="keyword">const</span> newTotalScoreSum = newItemObj.<span class="property">sprintList</span>.<span class="property">items</span>.<span class="title function_">reduce</span>(</span><br><span class="line">    <span class="function">(<span class="params">acc, val</span>) =&gt;</span> acc + val.<span class="property">score</span>,</span><br><span class="line">    <span class="number">0</span></span><br><span class="line">  );</span><br><span class="line">  <span class="title function_">setTotalScoreSum</span>(newTotalScoreSum);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>最後 <code>totalScoreSum</code> 判斷是否大於點數上限，若大於上限則會開啟警告文字</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">WarningText</span>&gt;</span><br><span class="line">  &#123;totalScoreSum &gt; <span class="number">20</span> &amp;&amp; <span class="string">&#x27;點數已超出上限，請移除一些項目&#x27;</span>&#125;</span><br><span class="line">&lt;/<span class="title class_">WarningText</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>因為 react-beautiful-dnd 想要為開發者保留客製化的空間，所以元件中間的 prop 需要包一個套件規定的函數，而這個函數要 return 出 react element，這些設計會使整體的結構比較複雜，一開始不好理解，建議讀者先從最簡單的結構慢慢熟悉，最後再加入樣式和更細緻的客製化</p>
+<p>希望本此教學可以幫助你更好理解這個套件該如何上手</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6933126664608202766">https://juejin.cn/post/6933126664608202766</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/droppable.md">https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/droppable.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.laiweb.org/posts/react-beautiful-dnd.html">https://blog.laiweb.org/posts/react-beautiful-dnd.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.logrocket.com/adding-drag-and-drop-functionality-with-react-beautiful-dnd/">https://blog.logrocket.com/adding-drag-and-drop-functionality-with-react-beautiful-dnd/</a></p>
+</div></article></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="Alex Lau"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Alex Lau</p><p class="is-size-6 is-block">理性思考、感性生活</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Taiwan/Kaohsiung</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Post</p><a href="/archives"><p class="title">1</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">0</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tag</p><a href="/tags"><p class="title">1</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/alexlautw9527"><i class="fab fa-github"></i></a></div></div></div><!--!--><!--!--><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-10-07T02:23:58.000Z">2022-10-07</time></p><p class="title"><a href="/2022/10/07/React-beautiful-dnd/">從理解到實作 React-beautiful-dnd</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/10/"><span class="level-start"><span class="level-item">October 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Flow state" height="28"></a><p class="is-size-7"><span>&copy; 2022 Alex Lau</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
